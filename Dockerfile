@@ -30,4 +30,4 @@ RUN chmod +x /home/mysql/run.sh
 COPY scripts/continue.sh /home/mysql/continue.sh
 RUN chmod +x /home/mysql/continue.sh
 
-ENTRYPOINT ["/home/mysql/run.sh", "su", "-m", "mysql", "-c", "/home/mysql/continue.sh /bin/bash"]
+ENTRYPOINT ["/home/mysql/run.sh", "su", "-m", "mysql", "-c", "/home/mysql/continue.sh /bin/sh"]
