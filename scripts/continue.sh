@@ -33,6 +33,7 @@ DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 FLUSH PRIVILEGES;
 EOSQL
 	echo "GENERATED ROOT PASSWORD: $MYSQL_PASSWORD"
+	echo $MYSQL_PASSWORD > /etc/mysql/.passwd
 else
 	echo "Starting MySQL on port $MYSQL_PORT"
 	/usr/share/mysql/mysql.server start --user=mysql --port=$MYSQL_PORT
