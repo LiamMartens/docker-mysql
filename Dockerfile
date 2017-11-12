@@ -1,5 +1,5 @@
 FROM alpine:3.6
-MAINTAINER Liam Martens (hi@liammartens.com)
+LABEL maintainer="hi@liammartens.com"
 
 # add mysql user
 RUN adduser -D mysql
