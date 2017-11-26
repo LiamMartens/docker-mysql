@@ -3,7 +3,7 @@ ARG USER='mysql'
 FROM liammartens/alpine
 LABEL maintainer="hi@liammartens.com"
 # set environments
-ENV OWN_BY='${USER}:${USER}'
+ENV OWN_BY="${USER}:${USER}"
 ENV OWN_DIRS="${OWN_DIRS} /var/lib/mysql /etc/mysql"
 
 # add packages
