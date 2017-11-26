@@ -16,11 +16,11 @@ echo $TIMEZONE > /etc/timezone
 if [ ! -d '/var/lib/mysql/mysql' ]; then
 
 	echo 'Initializing database'
-	mysql_install_db --user=mysql
+	mysql_install_db --user=$USER
 	echo 'Database initialized'
 
 	echo "Starting MySQL on port $MYSQL_PORT"
-	/usr/share/mysql/mysql.server start --user=mysql --port=$MYSQL_PORT
+	/usr/share/mysql/mysql.server start --user=$USER --port=$MYSQL_PORT
 
 	MYSQL_PASSWORD="$(pwgen -ncB 32 1)"
 	mysql -u root <<-EOSQL
@@ -36,7 +36,13 @@ EOSQL
 	echo $MYSQL_PASSWORD > /etc/mysql/.passwd
 else
 	echo "Starting MySQL on port $MYSQL_PORT"
-	/usr/share/mysql/mysql.server start --user=mysql --port=$MYSQL_PORT
+	/usr/share/mysql/mysql.server start --user=$USER --port=$MYSQL_PORT
 fi
 
-exec "$@"
+# run user scripts
+if [[ -d ./files/.$(whoami) ]]; then
+	chmod +x ./files/.$(whoami)/*
+	run-parts ./files/.$(whoami)
+fi
+
+$SHELL

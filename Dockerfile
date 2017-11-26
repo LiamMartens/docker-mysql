@@ -1,33 +1,21 @@
-FROM alpine:3.6
+# set 
+ARG USER='mysql'
+FROM liammartens/alpine
 LABEL maintainer="hi@liammartens.com"
-
-# add mysql user
-RUN adduser -D mysql
-
-# run updates
-RUN apk update && apk upgrade
+# set environments
+ENV OWN_BY='mysql:mysql'
+ENV OWN_DIRS="${ENV_DIR} /var/lib/mysql /etc/mysql"
 
 # add packages
-RUN apk add tzdata pwgen perl
-
-# add mysql
-RUN apk add mariadb mariadb-client
+RUN apk add pwgen mariadb mariadb-client
 
 # purge and re-create /var/lib/mysql with appropriate ownership
 RUN mkdir -p /var/lib/mysql /run/mysqld && \
-    chown -R mysql:mysql /var/lib/mysql /run/mysqld
+    chown -R ${USER}:${USER} /var/lib/mysql /run/mysqld
 
-# chown timezone files
-RUN touch /etc/timezone /etc/localtime && \
-    chown mysql:mysql /etc/localtime /etc/timezone
+# set mysql volumes
+VOLUME /var/lib/mysql /etc/mysql
 
-# set volume
-VOLUME ["/var/lib/mysql", "/etc/mysql"]
-
-# copy run file
-COPY scripts/run.sh /home/mysql/run.sh
-RUN chmod +x /home/mysql/run.sh
-COPY scripts/continue.sh /home/mysql/continue.sh
-RUN chmod +x /home/mysql/continue.sh
-
-ENTRYPOINT ["/home/mysql/run.sh", "su", "-m", "mysql", "-c", "/home/mysql/continue.sh /bin/sh"]
+# copy continue file
+COPY scripts/continue.sh ${ENV_DIR}/scripts/continue.sh
+RUN chmod +x ${ENV_DIR}/scripts/continue.sh
