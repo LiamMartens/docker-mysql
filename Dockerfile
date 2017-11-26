@@ -3,8 +3,8 @@ ARG USER='mysql'
 FROM liammartens/alpine
 LABEL maintainer="hi@liammartens.com"
 # set environments
-ENV OWN_BY='mysql:mysql'
-ENV OWN_DIRS="${ENV_DIR} /var/lib/mysql /etc/mysql"
+ENV OWN_BY='${USER}:${USER}'
+ENV OWN_DIRS="${OWN_DIRS} /var/lib/mysql /etc/mysql"
 
 # add packages
 RUN apk add pwgen mariadb mariadb-client
