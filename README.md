@@ -1,9 +1,13 @@
-# Custom MariaDB docker image
-* Based on Alpine
-* Runs as mysql user internally after taking file ownership
-* Defines 2 volumes (/var/lib/mysql for data storage and /etc/mysql for the configuration)
-* Sets timezone to environment variable TIMEZONE or to UTC by default
-* Aside from mariaDB also includes some useful tools such as htop, curl and so on (but no build tools)
-* Generates random root password upon first runn (will keep doing so if no persistent storage volume is used)
-* Binds MariaDB to port 3306 by default but can be overriden by setting a MYSQL_PORT environment variable
-* Initial root password will be saved in `files/conf/.passwd` or `/etc/mysql/.passwd` in the container
+# MariaDB
+This image is built on `Alpine`.
+
+## Build arguments
+* `USER`: The non-root user to be used in the container (`mysql`by default)
+* Any build arguments from the `Alpine` base image [liammartens/alpine](https://hub.docker.com/r/liammartens/alpine/)
+
+## Volumes
+* `/var/lib/mysql`: For persistent data 
+* `etc/mysql : For configuration (default `my.cnf` is copied if no volume is used)
+
+## Environment
+You can control the MariaDB port by passing the `MYSQL_PORT` environment variable. Furthermore you can use any environment variables defined in the official [MariaDB container](https://hub.docker.com/_/mariadb/) as the initialization script is the mostly the same. The only difference is the fact that generating a random root password is the preferred method for creating a password and does not need to be explicitly enabled and the generated password is not only printed to the terminal as it is also saved to `/etc/mysql/.passwd`.
