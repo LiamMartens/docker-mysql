@@ -54,7 +54,7 @@ DATADIR="$(_get_config 'datadir' mysqld)"
 # update mysql port
 perl -p -i -e "s/port\s*=\s*(.+)/port=$MYSQL_PORT/gi" /etc/mysql/my.cnf
 
-if [ ! -d "$DATADIR/mysql/mysql" ]; then
+if [ ! -d "$DATADIR/mysql" ]; then
 	file_env 'MYSQL_ROOT_PASSWORD'
 
 	mkdir -p "$DATADIR/mysql"
