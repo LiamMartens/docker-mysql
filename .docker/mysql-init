@@ -2,6 +2,9 @@
 set -eo pipefail
 shopt -s nullglob
 
+# get the container IP address and export it as an environment variable
+export MYSQL_TCP=$(awk 'END{print $1}' /etc/hosts)
+
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
@@ -53,6 +56,9 @@ DATADIR="$(_get_config 'datadir' mysqld)"
 
 # update mysql port
 perl -p -i -e "s/port\s*=\s*(.+)/port=$MYSQL_PORT/gi" /etc/mysql/my.cnf
+
+# udpate mysql bind
+perl -p -i -e "s/bind-address\s*=\s*(.+)/bind-address=$MYSQL_TCP/gi" /etc/mysql/my.cnf
 
 if [ ! -d "$DATADIR/mysql" ]; then
 	file_env 'MYSQL_ROOT_PASSWORD'
