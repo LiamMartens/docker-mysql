@@ -5,7 +5,7 @@ This image is built on `Alpine`.
 * `USER`: The non-root user to be used in the container (`mysql`by default)
 * Any build arguments from the `Alpine` base image [liammartens/alpine](https://hub.docker.com/r/liammartens/alpine/)
 
-## Volumes
+## Directories
 * `/var/lib/mysql`: For persistent data 
 * `etc/mysql : For configuration (default `my.cnf` is copied if no volume is used)
 

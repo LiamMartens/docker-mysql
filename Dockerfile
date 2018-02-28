@@ -17,9 +17,6 @@ COPY conf/ /etc/mysql
 # @run Chown mysql directories
 RUN chown -R ${USER}:${USER} /var/lib/mysql /run/mysqld /etc/mysql
 
-# @volume Add volumes
-VOLUME /var/lib/mysql /etc/mysql
-
 # @copy Copy additional run files
 COPY .docker ${DOCKER_DIR}
 
