@@ -1,5 +1,5 @@
 ARG USER=mysql
-FROM liammartens/alpine
+FROM liammartens/alpine:3.10
 LABEL maintainer="Liam Martens <hi@liammartens.com>"
 
 # @user Use root user for install
